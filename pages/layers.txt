@@ -1,0 +1,6 @@
+index.js - responsável por chamar todas as camadas
+services - responsável por lógica de negócio e chamadas externas
+views - toda interação com o DOM
+controllers - intermediária
+factories - importa as dependencias, cria objeto final e retorna a funcao que inicializa o fluxo do component
+workers - toda lógica pesada e chama regras negócios do service
