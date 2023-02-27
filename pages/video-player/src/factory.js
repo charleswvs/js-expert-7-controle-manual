@@ -24,7 +24,7 @@ async function getWorker() {
 
   const workerMock = {
     async postMessage(video) {
-      const blinked = await service.handBlinked(video);
+      const { blinked } = await service.handBlinked(video);
       if (!blinked) return;
       workerMock.onmessage({ data: { blinked } })
     },

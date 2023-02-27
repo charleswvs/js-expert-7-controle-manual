@@ -4,7 +4,10 @@ export default class Controller {
   #camera
   #worker
   #blinkCount = 0
-
+  #singleBlink = {
+    left: 0,
+    right: 0,
+  }
   constructor({
     view,
     camera,
@@ -33,9 +36,15 @@ export default class Controller {
         return;
       }
 
-      const blinked = msg.data.blinked;
-      this.#view.togglePlayVideo();
-      this.#blinkCount += blinked;
+      const { blinked, rightEyeBlinked, leftEyeBlinked } = msg.data;
+
+      this.#singleBlink.left += leftEyeBlinked ? 1 : 0;
+      this.#singleBlink.right += rightEyeBlinked ? 1 : 0;
+
+      if (blinked) {
+        this.#view.togglePlayVideo();
+        this.#blinkCount += blinked;
+      }
     }
     return {
       send(msg) {
@@ -61,7 +70,7 @@ export default class Controller {
   }
 
   log(text) {
-    const times = `     - blinked times: ${this.#blinkCount}`
+    const times = `     - blinked times: ${this.#blinkCount}     - left eye blinked: ${this.#singleBlink.left}     - right eye blinked: ${this.#singleBlink.right}`
 
     this.#view.log(`logger: ${text}`.concat(this.#blinkCount ? times : ''));
   }
